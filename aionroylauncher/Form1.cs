@@ -121,5 +121,35 @@ namespace aionroylauncher
             Regex validipregex = new Regex(@"^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$");
             return (ipAddress != "" && validipregex.IsMatch(ipAddress.Trim())) ? true : false;
         }
+
+        /// <summary>
+        /// 拖动窗体
+        /// </summary>
+        Point mouseOff;//鼠标移动位置变量
+        bool leftFlag;//标签是否为左键
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseOff = new Point(-e.X, -e.Y); //得到变量的值
+                leftFlag = true;                  //点击左键按下时标注为true;
+            }
+        }
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (leftFlag)
+            {
+                Point mouseSet = Control.MousePosition;
+                mouseSet.Offset(mouseOff.X, mouseOff.Y);  //设置移动后的位置
+                Location = mouseSet;
+            }
+        }
+        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (leftFlag)
+            {
+                leftFlag = false;//释放鼠标后标注为false;
+            }
+        }
     }
 }
